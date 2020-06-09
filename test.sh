@@ -1,21 +1,15 @@
 #!/bin/bash
 echo "begin"
 
-i=4
-for datasets in 'blogcatalog'
+i=0
+for file in 'graph/citeseer.edgelist' 'graph/cora.edgelist' 'link_prediction/blogcatalog/train_set' 'link_prediction/flickr/train_set'
 do
-	for reg in 15 25 30
-	do
-		for alpha in 1
-		do
-			# reg=$(echo "scale=4;${alpha} / ${bizhi}`"|bc)
-			echo "in file ${i}  datasets: ${datasets} alpha: ${alpha} reg: ${reg}"
-			nohup python main.py --datasets ${datasets} --alpha ${alpha} --reg ${reg} --train_type link_prediction >blogcatalog/${i}.f 2>&1 &
-			# wait
-			i=`expr $i + 1`
-		done
+	# reg=$(echo "scale=4;${alpha} / ${bizhi}`"|bc)
+	echo "in file ${i} "
+	nohup python src/main.py --input ${file} --output 'embed/i.embedding' >>o.f 2>&1 &
 	# wait
-	done
+	i=`expr $i + 1`
+	
 done
 wait
 echo "finsh"
